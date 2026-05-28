@@ -554,6 +554,14 @@ video {
   display: none;
 }
 
+.content-center {
+  align-content: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
 .rounded-xl {
   border-radius: 0.75rem;
 }
@@ -565,6 +573,10 @@ video {
 
 .p-6 {
   padding: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .text-4xl {
