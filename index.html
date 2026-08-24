@@ -11,35 +11,41 @@
     <title>Rosette Robotics</title>
 </head>
 
-<body class="bg-stone-950 text-white">
+<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-white">
 
   <!-- Navbar -->
-  <nav class="w-full border-b border-white/10 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+  <nav class="w-full border-b border-stone-900/10 dark:border-white/10 bg-stone-50/80 dark:bg-[#000000]/80 backdrop-blur sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold tracking-tight">
-        Rosette Robotics
-      </h1>
-      <div class="space-x-6 hidden md:flex text-sm text-gray-300">
-        <a href="#about" class="hover:text-white transition">About</a>
-        <a href="#product" class="hover:text-white transition">Product</a>
-        <a href="#team" class="hover:text-white transition">Team</a>
-        <a href="#contact" class="hover:text-white transition">Contact Us</a>
+      <div class="h-16 md:h-24 overflow-hidden flex items-center">
+        <picture>
+          <!-- System prefers dark mode -->
+          <source srcset="./dist/RosetteRobotics_Text_White.png" media="(prefers-color-scheme: dark)"/>
+          
+          <!-- System prefers light mode / Fallback -->
+          <img class="h-32 md:h-48 w-auto -my-3" src="./dist/RosetteRobotics_Text_Black.png" alt="Rosette Robotics" />
+        </picture>
+      </div>
+      <div class="space-x-6 hidden md:flex text-sm text-gray-800 dark:text-gray-300">
+        <a href="#about" class="text-stone-700 hover:text-[#003825] dark:text-gray-300 dark:hover:text-white/50 transition">About</a>
+        <a href="#product" class="text-stone-700 hover:text-[#003825] dark:text-gray-300 dark:hover:text-white/50 transition">Product</a>
+        <a href="#team" class="text-stone-700 hover:text-[#003825] dark:text-gray-300 dark:hover:text-white/50 transition">Team</a>
+        <a href="#contact" class="text-stone-700 hover:text-[#003825] dark:text-gray-300 dark:hover:text-white/50 transition">Contact Us</a>
       </div>
     </div>
   </nav>
 
   <!-- Hero -->
   <section class="relative overflow-hidden">
-<div class="absolute inset-0 bg-gradient-to-br from-indigo-600/20 via-indigo-500/10 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-br from-[#405F4D] to-black/50"></div>
     <div class="max-w-7xl mx-auto px-6 py-24 md:py-36 relative z-10">
       <div class="max-w-3xl">
 
-        <h2 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
+        <h2 class="text-5xl md:text-7xl font-bold leading-tight mb-6 text-white">
           Intelligent Robotics for
-          <span class="text-amber-400">Seed Analysis</span> Semi-Automation
+          <span class="text-[#C49F58]">Seed Analysis</span> Semi-Automation
         </h2>
 
-        <p class="text-xl text-gray-300 leading-relaxed mb-8">
+        <p class="text-xl text-gray-200 leading-relaxed mb-8">
           Rosette Robotics builds advanced robotic systems designed to work hand-in-hand with analysts to increase accuracy and consistency.
         </p>
 
@@ -51,11 +57,11 @@
   </section>
 
   <!-- About -->
-  <section id="about" class="py-20">
+  <section id="about" class="py-20 bg-[#003825]/5">
     <div class="max-w-7xl mx-auto px-6">
       <div class="max-w-3xl">
         <h3 class="text-4xl font-bold mb-6">Who We Are</h3>
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-gray-800 dark:text-gray-300 text-lg leading-relaxed">
           Rosette Robotics is a technology company focused on
           developing robotics solutions for agricultural and seed analysis
           applications. Our mission is to improve efficiency, consistency, and
@@ -66,55 +72,55 @@
   </section>
 
   <!-- Product -->
-  <section id="product" class="py-20 bg-white/5">
+  <section id="product" class="py-20 dark:bg-white/5">
     <div class="max-w-7xl mx-auto px-6">
       <div class="max-w-4xl">
         <h3 class="text-4xl font-bold mb-6">Our Product</h3>
-        <p class="text-gray-300 text-lg leading-relaxed mb-8">
-          Our flagship robotic platform, the <span class="text-amber-400">Rosette SABER</span>, semi-automates seed inspection
+        <p class="text-gray-800 dark:text-gray-300 text-lg leading-relaxed mb-8">
+          Our flagship robotic platform, the <span class="text-[#003825] dark:text-[#C49F58]">Rosette SABER</span>, semi-automates seed inspection
           and analysis using advanced imaging, machine learning, and robotics coupled with human review intended to blend machine and human analyst intelligence.
           The system provides fast, reliable insights while reducing manual work, but not taking analysis out of the hands of expert analysts.
         </p>
 
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6">
             <h4 class="text-xl font-semibold mb-3">Fast</h4>
-            <p class="text-gray-400">
+            <p class="text-gray-900 dark:text-gray-400">
               Analyze seeds at high throughput.
             </p>
           </div>
 
-          <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6">
             <h4 class="text-xl font-semibold mb-3">Accurate</h4>
-            <p class="text-gray-400">
+            <p class="text-gray-900 dark:text-gray-400">
               Consistent measurements with automated precision.
             </p>
           </div>
 
-          <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6">
             <h4 class="text-xl font-semibold mb-3">Scalable</h4>
-            <p class="text-gray-400">
+            <p class="text-gray-900 dark:text-gray-400">
               Built for labs and cleaning plants.
             </p>
           </div>
 
-          <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6">
             <h4 class="text-xl font-semibold mb-3">Verifiable</h4>
-            <p class="text-gray-400">
+            <p class="text-gray-900 dark:text-gray-400">
               Our system stores results to prove the accuracy of assigned grades.
             </p>
           </div>
 
-          <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6">
             <h4 class="text-xl font-semibold mb-3">Private</h4>
-            <p class="text-gray-400">
+            <p class="text-gray-900 dark:text-gray-400">
               Your data will never be shared or sold to other companies.
             </p>
           </div>
 
-          <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6">
             <h4 class="text-xl font-semibold mb-3">Sustainable</h4>
-            <p class="text-gray-400">
+            <p class="text-gray-900 dark:text-gray-400">
               Our system uses powerful but lightweight models for next to no environmental impact.
             </p>
           </div>
@@ -124,49 +130,57 @@
   </section>
 
   <!-- Team -->
-  <section id="team" class="py-20">
+  <section id="team" class="py-20 bg-[#003825]/5">
     <div class="max-w-7xl mx-auto px-6">
-      <h3 class="text-4xl font-bold mb-12">Our Team</h3>
+      <div class="max-w-4xl">
+        <h3 class="text-4xl font-bold mb-12">Our Team</h3>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
-          <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/curtis.webp"></div>
-          <h4 class="text-xl font-semibold">Curtis Kennedy</h4>
-          <p class="text-amber-400">Co-Founder & CEO</p>
-        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6 text-center">
+            <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/curtis.webp"></div>
+            <h4 class="text-xl font-semibold">Curtis Kennedy</h4>
+            <p class="text-[#003825] dark:text-[#C49F58]">Co-Founder & CEO</p>
+          </div>
 
-        <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
-          <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/nate.jpeg"></div>
-          <h4 class="text-xl font-semibold">Nate Stork</h4>
-          <p class="text-amber-400">Co-Founder & CPO</p>
-        </div>
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6 text-center">
+            <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/nate.jpeg"></div>
+            <h4 class="text-xl font-semibold">Nate Stork</h4>
+            <p class="text-[#003825] dark:text-[#C49F58]">Co-Founder & CPO</p>
+          </div>
 
-        <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
-          <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/luke.jpeg"></div>
-          <h4 class="text-xl font-semibold">Luke Yaremko</h4>
-          <p class="text-amber-400">Co-Founder & CTO</p>
-        </div>
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6 text-center">
+            <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/luke.jpeg"></div>
+            <h4 class="text-xl font-semibold">Luke Yaremko</h4>
+            <p class="text-[#003825] dark:text-[#C49F58]">Co-Founder & CTO</p>
+          </div>
 
-        <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
-          <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/glen.jpg"></div>
-          <h4 class="text-xl font-semibold">Dr. R. Glen Uhrig</h4>
-          <p class="text-amber-400">Chief Scientific Advisor</p>
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6 text-center">
+            <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/glen.jpg"></div>
+            <h4 class="text-xl font-semibold">Dr. R. Glen Uhrig</h4>
+            <p class="text-[#003825] dark:text-[#C49F58]">Scientific Advisor</p>
+          </div>
+
+          <div class="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-6 text-center">
+            <div><img class="w-20 h-20 rounded-full mx-auto mb-4" src="./dist/ghlin_20200623.jpg"></div>
+            <h4 class="text-xl font-semibold">Dr. Guohui Lin</h4>
+            <p class="text-[#003825] dark:text-[#C49F58]">Scientific Advisor</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="contact" class="py-20 bg-white/5">
+  <section id="contact" class="py-20 dark:bg-white/5">
     <div class="max-w-7xl mx-auto px-6">
         <h3 class="text-4xl font-bold mb-12">Contact Us</h3>
 
-        <p>We would love to hear from you! Email us at <a href="mailto:info@rosetterobotics.com"><span class="text-amber-400">info@rosetterobotics.com</span></a> with any questions you have or just to get in touch!</p>
+        <p>We would love to hear from you! Email us at <a href="mailto:info@rosetterobotics.com"><span class="text-[#003825] dark:text-[#C49F58]">info@rosetterobotics.com</span></a> with any questions you have or just to get in touch!</p>
         
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-white/10 py-8">
+  <footer class="border-t border-black/10 dark:border-white/10 py-8 bg-black/5">
     <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
       Rosette Robotics
     </div>
