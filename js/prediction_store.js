@@ -152,6 +152,8 @@ export async function applyManualChange(serverId, finalPrediction) {
 
 export async function createDetection(x1, y1, x2, y2, label) {
 
+    let data = { server_id: crypto.randomUUID(), confidence: 100, label: label, x1: x1, y1: y1, x2: x2, y2: y2 };
+
     state.seeds.set(String(data.server_id), data);
 
     if (data.label !== 'deleted' && !(data.label in state.classColors)) {

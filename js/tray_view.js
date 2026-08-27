@@ -526,8 +526,6 @@ function openLabelPickerModal(x1, y1, x2, y2, e) {
         opt.value = seedClass.id;
         opt.textContent = seedClass.class;
         classSelect.appendChild(opt);
-
-        
     }
 
     if (lastChosenSeedClass) {
@@ -601,11 +599,6 @@ async function submitNewDetection(x1, y1, x2, y2, label) {
         renderPredictionsList(det_list_page, det_list_items_per_page);
     } catch (err) {
         console.error('Create detection error:', err);
-        showToast({
-            message: 'Create failed',
-            detail: 'Could not create bounding box. Try again.',
-            type: 'error',
-        });
     } finally {
         hoverLayer.destroyChildren();
         hoverLayer.batchDraw();
@@ -669,11 +662,6 @@ async function handleMergeClick(det) {
     try {
         await mergeDetections(mergeFirst.server_id, mergeSecond.server_id, merged);
     } catch (err) {
-        showToast({
-            message: 'Merge failed',
-            detail: 'Could not merge the selected bounding boxes. Try again.',
-            type: 'error',
-        });
         console.error('Merge error:', err);
     } finally {
         clearMergeState();
