@@ -11,9 +11,10 @@ let cleanupFns = [];
 let unsubscribeStore = null;
 
 let SORT_TYPE = 'type';
-let cols = 10;
+let cols = 4;
 let scale = 1.0;
 let sourceImg = null;
+let renderScale = null;
 let rowLayout = [];
 let rowTops = [];
 let totalH = 0;
@@ -72,7 +73,7 @@ export async function mount(mountPoint, config) {
 
     // reset local state
     SORT_TYPE = 'type';
-    cols = 10;
+    cols = 4;
     scale = 1.0;
     rendered = new Map();
     selectedId = null;
@@ -236,9 +237,17 @@ function buildLayout() {
     const colW = Math.floor(availW / cols);
 
     // ── Group seeds if sorting by type or needs_manual_review ──
-    let groups; // [{ label: string, seeds: [...] }, ...]
+    let groups;
 
     let seeds = getAllSeeds()
+
+    // ── Compute ONE global scale from the widest seed across ALL seeds ──
+    let maxNativeW = 0;
+    for (const s of seeds) {
+        const nativeW = s.x2 - s.x1;
+        if (nativeW > maxNativeW) maxNativeW = nativeW;
+    }
+    renderScale = maxNativeW > 0 ? Math.min(scale, colW / maxNativeW) : scale;
 
     if (SORT_TYPE === 'type') {
         const map = new Map();
@@ -259,26 +268,25 @@ function buildLayout() {
         ].filter(g => g.seeds.length > 0);
 
     } else {
-        // No grouping — treat everything as one unlabelled group
         groups = [{ label: null, seeds: seeds }];
     }
 
     // ── Build rows from each group ──
     for (const group of groups) {
-        // Header row (skip for the ungrouped case)
         if (group.label !== null) {
             rowTops.push(PAD + totalH);
             rowLayout.push({ type: 'header', label: group.label, colW });
             totalH += HEADER_H + GAP;
         }
 
-        // Seed rows — chunk the group into rows of `cols`
         for (let i = 0; i < group.seeds.length; i += cols) {
             const rowSeeds = group.seeds.slice(i, i + cols);
 
+            // Use the SAME global renderScale for every row
             let maxH = 0;
             for (const s of rowSeeds) {
-                const th = Math.round((s.y2 - s.y1) * scale);
+                const nativeH = s.y2 - s.y1;
+                const th = Math.round(nativeH * renderScale);
                 if (th > maxH) maxH = th;
             }
 
@@ -352,8 +360,9 @@ function render() {
         for (const s of rowSeeds) {
             const sw = s.x2 - s.x1;
             const sh = s.y2 - s.y1;
-            const tileW = Math.max(1, Math.round(sw * scale));
-            const tileH = Math.max(1, Math.round(sh * scale));
+            const tileW = Math.max(1, Math.round(sw * renderScale));
+            const tileH = Math.max(1, Math.round(sh * renderScale));
+
 
             // ── Tile wrapper ──
             const tile = document.createElement("div");

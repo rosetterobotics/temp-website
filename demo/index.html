@@ -32,10 +32,10 @@ Unauthorized copying, distribution, or commercial use via any medium is strictly
 
     <div class="space-y-8 px-8 py-6">
     <div class="flex" id="viewer-toolbar">
-        <h1 class="text-4xl font-bold flex-1 font-['New Science']">Demo Sample Scan Results</h1>
+        <h1 class="text-xl lg:text-4xl font-bold flex-1 font-['New Science']">Demo Sample Scan Results</h1>
         <div class="flex-none">
-            <button id="btn-tray-view" class="btn border border-white">Tray View</button>
-            <button id="btn-grid-view" class="btn">Grid View</button>
+            <button id="btn-tray-view" class="btn-sm lg:btn-md btn border border-white">Tray View</button>
+            <button id="btn-grid-view" class="btn-sm lg:btn-md btn">Grid View</button>
         </div>
     </div>
 
@@ -56,7 +56,7 @@ Unauthorized copying, distribution, or commercial use via any medium is strictly
                         </h3>
                         <div class="flex-none">
                             <button class="btn border border-white" id="table-btn">Table</button>
-                            <button class="btn" id="chart-btn">Chart</button>
+                            <button class="btn" id="chart-btn">Charts</button>
                         </div>
                     </div>
                     <div id="data-analytics-container" class="mt-4 rounded-lg overflow-hidden"></div>
@@ -101,23 +101,74 @@ Unauthorized copying, distribution, or commercial use via any medium is strictly
     <!-- TRAY VIEW MARKUP — inert until cloned by tray_view.js         -->
     <!-- ============================================================ -->
    <template id="tray-view-template">
-        <div id="wrapper" class="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[50vh] lg:h-[70vh]">
+        <div id="wrapper" class="grid grid-cols-1 grid-rows-[1fr_2fr] lg:grid-cols-4 lg:grid-rows-1 gap-6 h-[120dvh] lg:h-[70vh]">
         
-        
-            <div
-                class="lg:col-span-3 h-full bg-neutral rounded-2xl overflow-hidden border border-base-300 shadow-inner relative">
-               <div id="mode-selector">
-                    <label><input type="radio" name="viewer_mode" value="pan" id="mode_pan" checked> Default</label>
-                    <label><input type="radio" name="viewer_mode" value="create" id="mode_create"> Create Box</label>
-                    <label><input type="radio" name="viewer_mode" value="merge" id="mode_merge"> Merge Boxes</label>
-                    <label><input type="radio" name="viewer_mode" value="review" id="mode_review"> Laser</label>
+            <div class="lg:col-span-3 h-full bg-neutral rounded-2xl border border-base-300 shadow-inner relative flex">
+                
+                <div id="viewer" class="w-full h-full relative flex-1"></div>
+                
+                <div class="flex flex-col gap-1 flex-none bg-black" id="mode-selector">
+            
+                    <!-- Default -->
+                    <label title="Default mode" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded
+                           text-slate-500 hover:bg-slate-200 hover:text-slate-800
+                           has-[:checked]:bg-slate-300 has-[:checked]:text-slate-900">
+                        <input type="radio" name="viewer_mode" value="pan" id="mode_pan" checked class="sr-only">
+            
+                        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                            <path d="M5 3l14 9-6 1 4 7-3 1-4-7-5 4z" fill="none" stroke="currentColor" stroke-width="1.8"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </label>
+            
+            
+                    <!-- Merge boxes -->
+                    <label title="Merge boxes" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded
+                           text-slate-500 hover:bg-slate-200 hover:text-slate-800
+                           has-[:checked]:bg-slate-300 has-[:checked]:text-slate-900">
+                        <input type="radio" name="viewer_mode" value="merge" id="mode_merge" class="sr-only">
+            
+                        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                            <rect x="3" y="5" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.8" />
+                            <rect x="12" y="10" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.8" />
+                            <path d="M9 14h3v-3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+                    </label>
+            
+            
+                    <!-- Create box -->
+                    <label title="Create box" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded
+                           text-slate-500 hover:bg-slate-200 hover:text-slate-800
+                           has-[:checked]:bg-slate-300 has-[:checked]:text-slate-900">
+                        <input type="radio" name="viewer_mode" value="create" id="mode_create" class="sr-only">
+            
+                        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                            <rect x="5" y="5" width="14" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="1.8" />
+                            <path d="M12 8v8M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+                    </label>
+            
+            
+                    <!-- Laser -->
+                    <label title="Laser mode" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded
+                           text-slate-500 hover:bg-slate-200 hover:text-slate-800
+                           has-[:checked]:bg-slate-300 has-[:checked]:text-slate-900">
+                        <input type="radio" name="viewer_mode" value="review" id="mode_review" class="sr-only">
+            
+                        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                            <path d="M5 19L19 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            <path d="M16 3v4M21 8h-4M18.5 5.5l2-2" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" />
+                        </svg>
+                    </label>
+            
                 </div>
-                <div id="viewer" class="w-full h-full relative"></div>
+
             </div>
         
             
             <div id="list-column"
-                class="lg:col-span-1 bg-base-200 rounded-2xl overflow-hidden flex flex-col border border-base-300">
+                class="sm:text-xs md:text-l lg:col-span-1 bg-base-200 rounded-2xl overflow-hidden flex flex-col border border-base-300">
         
                 <div class="p-4 border-b border-base-300 bg-base-300/30">
                     <h2 class="text-lg font-semibold">
@@ -233,8 +284,8 @@ Unauthorized copying, distribution, or commercial use via any medium is strictly
     
             <div class="sg-toolbar-right flex items-center gap-[10px] flex-wrap">
                 <label class="text-[13px] text-white">Cols</label>
-                <input type="range" id="sg-col-slider" min="4" max="24" value="10" step="1">
-                <span id="sg-col-val" class="text-[13px] font-semibold min-w-8">10</span>
+                <input type="range" id="sg-col-slider" min="4" max="24" value="4" step="1">
+                <span id="sg-col-val" class="text-[13px] font-semibold min-w-8">4</span>
     
                 <label class="text-[13px] white">Scale</label>
                 <input type="range" id="sg-scale-slider" min="0.25" max="3" value="1" step="0.05">
@@ -253,7 +304,7 @@ Unauthorized copying, distribution, or commercial use via any medium is strictly
         <div id="sg-loading" class="p-8 text-center text-sm text-gray-400 border border-dashed border-gray-300 rounded-lg">
             <span id="sg-loading-msg">Loading image…</span>
         </div>
-        <div id="wrapper" class="h-[50vh] lg:h-[70vh] grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-0">
+        <div id="wrapper" class="grid grid-cols-1 grid-rows-[1fr_2fr] lg:grid-cols-4 lg:grid-rows-1 gap-6 h-[120dvh] lg:h-[70vh]">
     
             <!-- Grid: takes remaining space, scrolls internally -->
             <div id="sg-scroll-outer"
@@ -373,11 +424,11 @@ Unauthorized copying, distribution, or commercial use via any medium is strictly
     </template>
 
     <template id="chart-view-template">
-        <div class="flex flex-col md:flex-row gap-6">
-            <div class="flex-1 p-4 rounded-xl shadow-sm border border-base-300">
+        <div class="flex flex-wrap gap-6">
+            <div class="flex-1 min-w-[320px] min-h-[500px] p-4 rounded-xl shadow-sm border border-base-300 relative">
                 <canvas id="bar-chart"></canvas>
             </div>
-            <div class="flex-1 p-4 rounded-xl shadow-sm border border-base-300">
+            <div class="flex-1 min-w-[320px] min-h-[500px] p-4 rounded-xl shadow-sm border border-base-300 relative">
                 <canvas id="pie-chart"></canvas>
             </div>
         </div>

@@ -143,6 +143,15 @@ export async function mount(mountPoint, config) {
 
     renderPredictionsList(det_list_page, det_list_items_per_page);
 
+    const resizeObserver = new ResizeObserver(() => {
+        const { width, height } = viewer.getBoundingClientRect();
+        stage.width(width);
+        stage.height(height);
+        resizeOverlayCanvas();
+        redrawOverlay();
+    });
+    resizeObserver.observe(viewer);
+
     // beforeunload was previously a page-wide listener firing a "home"
     // ping — that's page-level lifecycle, not view lifecycle, so it stays
     // in the page controller (results.html), not here.
@@ -271,8 +280,13 @@ function openModal(title, detection_server_id) {
 }
 
 function resizeOverlayCanvas() {
-    overlayCanvas.width = container.clientWidth;
-    overlayCanvas.height = container.clientHeight;
+    const width = stage.width();
+    const height = stage.height();
+
+    overlayCanvas.width = width;
+    overlayCanvas.height = height;
+    overlayCanvas.style.width = width + 'px';
+    overlayCanvas.style.height = height + 'px';
 }
 
 function drawLabel(ctx, det, x, y, color, fontSize, stageScale) {
@@ -299,9 +313,11 @@ function redrawOverlay() {
     overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
 
     const stageScale = stage.scaleX();
+    const stageX = stage.x();
+    const stageY = stage.y();
 
     overlayCtx.save();
-    overlayCtx.translate(stage.x(), stage.y());
+    overlayCtx.translate(stageX, stageY);
     overlayCtx.scale(stageScale, stageScale);
 
     for (const det of getAllSeeds()) {
@@ -311,6 +327,21 @@ function redrawOverlay() {
         const y = det.y1 * displayScale;
         const w = (det.x2 - det.x1) * displayScale;
         const h = (det.y2 - det.y1) * displayScale;
+
+        // Convert this box to screen space to test against the visible canvas
+        const screenX = x * stageScale + stageX;
+        const screenY = y * stageScale + stageY;
+        const screenW = w * stageScale;
+        const screenH = h * stageScale;
+
+        const isVisible =
+            screenX + screenW >= 0 &&
+            screenY + screenH >= 0 &&
+            screenX <= overlayCanvas.width &&
+            screenY <= overlayCanvas.height;
+
+        if (!isVisible) continue;
+
         const color = getColor(det);
 
         overlayCtx.strokeStyle = color;

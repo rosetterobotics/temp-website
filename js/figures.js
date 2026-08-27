@@ -81,11 +81,23 @@ const load_figs = () => {
 
     const chartTextColor = '#e5e7eb';
 
+    const anchorBottomPlugin = {
+        id: 'anchorBottom',
+        afterLayout(chart) {
+            const area = chart.chartArea;
+            const size = Math.min(area.right - area.left, area.bottom - area.top);
+            // push the usable area down so the circle's vertical center sits near the bottom
+            const extra = (area.bottom - area.top) - size;
+            area.top += extra;
+        }
+    };
+
     const pc_options = {
         events: ['mousemove', 'mouseout', 'click'],
         responsive: true,
         plugins: {
             responsive: true,
+            maintainAspectRatio: false,
             legend: {
                 labels: {
                     font: {
@@ -142,12 +154,20 @@ const load_figs = () => {
                 hoverOffset: 4
             }]
         },
-        options: pc_options
+        options: pc_options,
+        plugins: [anchorBottomPlugin]
     });
 
     const bc_options = {
         events: ['mousemove', 'mouseout', 'click'],
         responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                left: 0,
+                right: 0
+            }
+        },
         plugins: {
             responsive: true,
             legend: {
