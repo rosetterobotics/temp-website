@@ -98,6 +98,12 @@ const load_figs = () => {
         plugins: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 0
+                }
+            },
             legend: {
                 labels: {
                     font: {
