@@ -144,17 +144,20 @@ export async function mount(mountPoint, config) {
     renderPredictionsList(det_list_page, det_list_items_per_page);
 
     const resizeObserver = new ResizeObserver(() => {
-        const { width, height } = viewer.getBoundingClientRect();
+        const width = stageContainer.clientWidth;
+        const height = stageContainer.clientHeight;
         stage.width(width);
         stage.height(height);
+
+        stage.position({
+            x: 0,
+            y: 0,
+        });
+
         resizeOverlayCanvas();
         redrawOverlay();
     });
-    resizeObserver.observe(viewer);
-
-    // beforeunload was previously a page-wide listener firing a "home"
-    // ping — that's page-level lifecycle, not view lifecycle, so it stays
-    // in the page controller (results.html), not here.
+    resizeObserver.observe(stageContainer);
 }
 
 export function unmount() {

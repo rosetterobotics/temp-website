@@ -14,7 +14,6 @@ let SORT_TYPE = 'type';
 let cols = 4;
 let scale = 1.0;
 let sourceImg = null;
-let renderScale = null;
 let rowLayout = [];
 let rowTops = [];
 let totalH = 0;
@@ -25,6 +24,8 @@ let drawQueue = [];
 let schedulerRunning = false;
 let sliderRafId = null;
 let rafPending = false;
+let maxNativeW = null;
+let maxScale = 3;
 
 let csrf_token = null;
 
@@ -80,6 +81,12 @@ export async function mount(mountPoint, config) {
     selectedServerId = null;
     drawQueue = [];
     schedulerRunning = false;
+
+    maxNativeW = 0;
+    for (const s of getAllSeeds()) {
+        const nativeW = s.x2 - s.x1;
+        if (nativeW > maxNativeW) maxNativeW = nativeW;
+    }
 
     // --- store subscription ---
     unsubscribeStore = subscribe(handleStoreEvent);
@@ -233,8 +240,9 @@ function buildLayout() {
     rowTops = [];
     totalH = 0;
 
-    const availW = scrollEl.clientWidth - PAD * 2 - GAP * (cols - 1);
-    const colW = Math.floor(availW / cols);
+    const availW = scrollEl.clientWidth;
+    
+    const colW = availW;
 
     // ── Group seeds if sorting by type or needs_manual_review ──
     let groups;
@@ -242,12 +250,8 @@ function buildLayout() {
     let seeds = getAllSeeds()
 
     // ── Compute ONE global scale from the widest seed across ALL seeds ──
-    let maxNativeW = 0;
-    for (const s of seeds) {
-        const nativeW = s.x2 - s.x1;
-        if (nativeW > maxNativeW) maxNativeW = nativeW;
-    }
-    renderScale = maxNativeW > 0 ? Math.min(scale, colW / maxNativeW) : scale;
+    
+    // renderScale = maxNativeW > 0 ? Math.min(scale, colW / maxNativeW) : scale;
 
     if (SORT_TYPE === 'type') {
         const map = new Map();
@@ -271,6 +275,8 @@ function buildLayout() {
         groups = [{ label: null, seeds: seeds }];
     }
 
+    maxScale = availW / maxNativeW;
+
     // ── Build rows from each group ──
     for (const group of groups) {
         if (group.label !== null) {
@@ -279,19 +285,52 @@ function buildLayout() {
             totalH += HEADER_H + GAP;
         }
 
-        for (let i = 0; i < group.seeds.length; i += cols) {
-            const rowSeeds = group.seeds.slice(i, i + cols);
+        let i = 0;
+        while ( i < group.seeds.length) {
+            
+            // change to just fit as many seeds as possible at that scale. Start at i, then 
+            const rowSeeds = []; // group.seeds.slice(i, i + cols);
+
+            let width_left = availW;
+            let j = 0;
+            for (j = i; j < group.seeds.length; ++j) {
+                let s = group.seeds[j];
+                const nativeW = s.x2 - s.x1;
+                const seed_w = Math.round(nativeW * scale); 
+                
+                if (j == i) {  // first one so no padding on left
+                    if (width_left >= seed_w){ 
+                        width_left -= seed_w;
+                        rowSeeds.push(s);
+                    } else {
+                        // can't even fit one so we need to scale down
+                        scale = availW / nativeW;
+                    }
+                    
+                } else { // has padding on the right
+                    if (width_left >= seed_w + PAD){ 
+                        width_left -= seed_w + PAD;
+                        rowSeeds.push(s);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            i = j;
 
             // Use the SAME global renderScale for every row
             let maxH = 0;
             for (const s of rowSeeds) {
                 const nativeH = s.y2 - s.y1;
-                const th = Math.round(nativeH * renderScale);
+                const th = Math.round(nativeH * scale);
                 if (th > maxH) maxH = th;
             }
 
+            let columnWidth = availW - width_left;
+
             rowTops.push(PAD + totalH);
-            rowLayout.push({ type: 'seeds', seeds: rowSeeds, rowH: maxH, colW });
+            rowLayout.push({ type: 'seeds', seeds: rowSeeds, rowH: maxH, columnWidth });
             totalH += maxH + GAP;
         }
     }
@@ -360,8 +399,8 @@ function render() {
         for (const s of rowSeeds) {
             const sw = s.x2 - s.x1;
             const sh = s.y2 - s.y1;
-            const tileW = Math.max(1, Math.round(sw * renderScale));
-            const tileH = Math.max(1, Math.round(sh * renderScale));
+            const tileW = Math.max(1, Math.round(sw * scale));
+            const tileH = Math.max(1, Math.round(sh * scale));
 
 
             // ── Tile wrapper ──
@@ -477,6 +516,8 @@ function onColSliderInput(e) {
 
 function onScaleSliderInput(e) {
     scale = parseFloat(e.target.value);
+    scale = Math.min(scale, maxScale);
+    e.target.value = scale;
     container.querySelector('#sg-scale-val').textContent = scale.toFixed(2) + 'x';
     scheduleRebuild();
 }

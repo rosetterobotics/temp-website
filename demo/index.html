@@ -279,38 +279,44 @@ Unauthorized copying, distribution, or commercial use via any medium is strictly
     <!-- ============================================================ -->
     <template id="grid-view-template">
     
-        <div id="sg-toolbar" class="flex items-center justify-between flex-wrap gap-2">
-            <div class="sg-toolbar-left">
-                <span id="sg-stats" class="text-[13px] text-white"></span>
-            </div>
-    
-            <div class="sg-toolbar-right flex items-center gap-[10px] flex-wrap">
-                <label class="text-[13px] text-white">Cols</label>
-                <input type="range" id="sg-col-slider" min="4" max="24" value="4" step="1">
-                <span id="sg-col-val" class="text-[13px] font-semibold min-w-8">4</span>
-    
-                <label class="text-[13px] white">Scale</label>
-                <input type="range" id="sg-scale-slider" min="0.25" max="3" value="1" step="0.05">
-                <span id="sg-scale-val" class="text-[13px] font-semibold min-w-8">1.0x</span>
-    
-                <label class="text-[13px] white">Sort By:</label>
-                <select id="sort-select">
-                    <option value="type">Type</option>
-                    <option value="confidence">Confidence</option>
-                    <option value="needs_manual_review">Needs manual review</option>
-                </select>
-    
-            </div>
-        </div>
-    
         <div id="sg-loading" class="p-8 text-center text-sm text-gray-400 border border-dashed border-gray-300 rounded-lg">
             <span id="sg-loading-msg">Loading image…</span>
         </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-1 gap-6">
+            <div id="sg-toolbar" class="flex items-center justify-between flex-wrap gap-2 flex-1 col-span-1 lg:col-span-3">
+                <div class="sg-toolbar-left">
+                    <span id="sg-stats" class="text-[13px] text-white"></span>
+                </div>
+            
+                <div class="sg-toolbar-right flex items-center gap-[10px]">
+                    <label class="text-[13px] text-white hidden">Cols</label>
+                    <input class="hidden" type="range" id="sg-col-slider" min="4" max="24" value="4" step="1">
+                    <span class="hidden" id="sg-col-val" class="text-[13px] font-semibold min-w-8">4</span>
+            
+                    <div class="flex">
+                        <label class="text-[13px] white">Scale </label><span id="sg-scale-val"
+                            class="text-[13px] font-semibold min-w-8">1.0x</span>
+                        <input class="range range-xs range-primary" type="range" id="sg-scale-slider" min="0.25" max="3" value="1"
+                            step="0.05">
+                    </div>
+            
+                    <label class="text-[13px] white hidden">Sort By:</label>
+                    <select class="hidden" id="sort-select">
+                        <option value="type">Type</option>
+                        <option value="confidence">Confidence</option>
+                        <option value="needs_manual_review">Needs manual review</option>
+                    </select>
+            
+                </div>
+            </div>
+        </div>
+
         <div id="wrapper" class="grid grid-cols-1 grid-rows-[1fr_2fr] lg:grid-cols-4 lg:grid-rows-1 gap-6 h-[120dvh] lg:h-[70vh]">
-    
+
             <!-- Grid: takes remaining space, scrolls internally -->
             <div id="sg-scroll-outer"
-                class="hidden flex-1 lg:col-span-3 min-h-0 overflow-y-auto border border-gray-300 rounded-lg bg-[#f5f2eb] relative">
+                class="hidden flex-1 lg:col-span-3 min-h-0 overflow-y-auto border border-gray-300 rounded-lg bg-[#f5f2eb] relative bg-black">
                 <div id="sg-phantom" class="w-full"></div>
                 <div id="sg-tiles" class="absolute top-0 left-0 w-full"></div>
             </div>
